@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Law Firm | Systems Synced | Case Study</title>
+<meta name="description" content="A law firm's online and offline teams were split across two systems that never agreed. Here's how that got fixed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08080A;
+    --ink-2:#0E0E11;
+    --ink-3:#141418;
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.16);
+    --paper:#F2EEE6;
+    --paper-dim:rgba(242,238,230,.62);
+    --paper-faint:rgba(242,238,230,.38);
+    --gold:#D9A94C;
+    --gold-soft:rgba(217,169,76,.13);
+    --rust:#C4643C;
+    --rust-soft:rgba(196,100,60,.13);
+    --green:#5FD08A;
+    --green-soft:rgba(95,208,138,.13);
+    --serif:'Instrument Serif', Georgia, serif;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --pad: clamp(20px, 4vw, 72px);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--paper);font-family:var(--sans);
+    font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--gold);color:var(--ink)}
+
+  #progress{position:fixed;top:0;left:0;height:2px;width:0%;z-index:100;background:linear-gradient(90deg,var(--rust),var(--gold),var(--green));transition:width .1s linear}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;
+    justify-content:space-between;padding:14px var(--pad);backdrop-filter:blur(14px);
+    background:rgba(8,8,10,0);border-bottom:1px solid transparent;
+    transition:background .4s ease,border-color .4s ease,padding .4s ease;
+  }
+  nav.stuck{background:rgba(8,8,10,.85);border-bottom-color:var(--line);padding:11px var(--pad)}
+  .nav-mark{font-size:clamp(11px,1.2vw,13px);font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-dim)}
+  .nav-mark b{color:var(--paper);font-weight:500}
+  .nav-cta{
+    font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--ink);
+    background:var(--paper);text-decoration:none;padding:10px 20px;border-radius:100px;
+    transition:background .3s ease,transform .3s ease;white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--gold);transform:translateY(-1px)}
+
+  section{position:relative;z-index:2;padding:clamp(54px,7vw,98px) var(--pad)}
+  .wrap{max-width:1220px;margin:0 auto}
+  .narrow{max-width:840px;margin:0 auto}
+
+  .eyebrow{font-size:clamp(14px,1.7vw,19px);letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold);display:flex;align-items:center;gap:16px;margin-bottom:22px}
+  .eyebrow::after{content:'';flex:1;height:1px;background:var(--line);max-width:120px}
+
+  h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5.2vw,60px);line-height:1.04;letter-spacing:-.02em;margin-bottom:20px}
+  h2 em{font-style:italic;color:var(--gold)}
+  h2:has(+.h2sub),h2:has(+.h2sub[style]){margin-bottom:16px}
+  .rule{width:clamp(40px,4.4vw,56px);height:2px;background:var(--gold);border-radius:2px;margin-bottom:clamp(16px,1.9vw,22px)}
+  .relief .rule,.final .rule{margin-left:auto;margin-right:auto}
+  .h2sub{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.9vw,33px);line-height:1.16;
+         letter-spacing:-.018em;color:var(--paper-dim);margin-bottom:20px;max-width:28ch}
+  .h2sub em{font-style:italic;color:var(--gold)}
+  .lede{font-size:clamp(19px,2.1vw,24px);line-height:1.55;color:var(--paper-dim);max-width:60ch}
+  .lede strong{color:var(--paper);font-weight:400}
+
+  /* ── hero ───────────────────────────────── */
+  .hero{min-height:auto;display:flex;flex-direction:column;justify-content:center;padding-top:clamp(112px,14vw,150px);padding-bottom:clamp(48px,6vw,72px);overflow:hidden}
+  .hero::after{
+    content:'';position:absolute;z-index:-1;width:min(150vw,1500px);height:min(150vw,1500px);
+    top:-60%;right:-35%;border-radius:50%;
+    background:radial-gradient(circle,rgba(217,169,76,.13) 0%,rgba(196,100,60,.06) 38%,transparent 66%);filter:blur(30px);
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:12px;align-self:flex-start;
+    border:1px solid var(--line-2);border-radius:100px;padding:7px 16px 7px 12px;margin-bottom:28px;
+    font-size:clamp(12px,1.4vw,14px);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-dim);
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+  .client{font-size:clamp(14px,1.9vw,19px);letter-spacing:.3em;text-transform:uppercase;font-weight:500;color:var(--paper-faint);margin-bottom:16px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,11vw,140px);line-height:.9;letter-spacing:-.035em;margin-bottom:24px}
+  h1 .it{font-style:italic;display:block;color:var(--gold)}
+  .hero-sub{font-size:clamp(19px,2.2vw,26px);line-height:1.42;color:var(--paper-dim);max-width:44ch;margin-bottom:42px}
+  .hero-sub b{color:var(--paper);font-weight:400}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:46px}
+
+  .btn{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-size:14px;font-weight:500;padding:16px 30px;border-radius:100px;transition:all .35s cubic-bezier(.22,1,.36,1)}
+  .btn-primary{background:var(--paper);color:var(--ink)}
+  .btn-primary:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 14px 40px rgba(217,169,76,.28)}
+  .btn-ghost{border:1px solid var(--line-2);color:var(--paper-dim)}
+  .btn-ghost:hover{border-color:var(--paper);color:var(--paper)}
+  .btn .arw{transition:transform .35s cubic-bezier(.22,1,.36,1)}
+  .btn:hover .arw{transform:translateX(4px)}
+
+  /* ── hero stats ─────────────────────────── */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+  .stat{padding:24px 24px 0 0;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-family:var(--serif);font-size:clamp(36px,5vw,62px);line-height:1;letter-spacing:-.02em;display:flex;align-items:center;gap:14px;margin-bottom:10px}
+  .stat .n span{color:var(--gold)}
+  .stat.up .n{color:var(--green)}
+  .stat.up .n span{color:var(--green)}
+  .stat .l{font-size:clamp(13px,1.4vw,15px);letter-spacing:.05em;color:var(--paper-faint);line-height:1.45;max-width:22ch}
+  .uparrow{width:clamp(26px,3.4vw,40px);height:auto;flex-shrink:0}
+  .spark{display:block;margin-top:14px;width:100%;max-width:180px;height:auto}
+  .stat-ph{font-family:var(--sans);font-size:clamp(13px,1.5vw,15px);letter-spacing:.06em;color:var(--gold);
+           border:1px dashed var(--line-2);border-radius:6px;padding:10px 16px;display:inline-block;line-height:1.3}
+
+  /* ── illustration primitives ────────────── */
+  .ill{display:block;width:100%;height:auto}
+  .figure{border:1px solid var(--line);border-radius:6px;background:var(--ink-2);padding:clamp(16px,2.1vw,26px);position:relative;overflow:hidden}
+  .figure .cap{
+    font-size:clamp(12px,1.3vw,14px);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-faint);
+    margin-top:14px;display:flex;align-items:center;gap:10px;
+  }
+  .figure .cap::before{content:'';width:16px;height:1px;background:var(--gold)}
+
+  .draw path,.draw line,.draw circle,.draw rect,.draw polyline{
+    stroke-dasharray:var(--len,600);stroke-dashoffset:var(--len,600);
+    transition:stroke-dashoffset 1.5s cubic-bezier(.22,1,.36,1);
+  }
+  .rv.in .draw path,.rv.in .draw line,.rv.in .draw circle,.rv.in .draw rect,.rv.in .draw polyline{stroke-dashoffset:0}
+  .grow{transform:scaleY(0);transform-origin:bottom;transform-box:fill-box;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+  .rv.in .grow{transform:scaleY(1)}
+  .fadein{opacity:0;transition:opacity .9s ease .5s}
+  .rv.in .fadein{opacity:1}
+
+  .ico{width:22px;height:22px;flex-shrink:0;stroke:var(--gold);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+  .ico.red{stroke:var(--rust)}
+  .ico.grn{stroke:var(--green)}
+  .icobox{
+    width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    background:var(--gold-soft);border:1px solid rgba(217,169,76,.2);margin-bottom:24px;
+  }
+  .icobox.red{background:var(--rust-soft);border-color:rgba(196,100,60,.24)}
+
+  /* ── challenge ──────────────────────────── */
+  .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,4.4vw,68px);align-items:start}
+  .gaps{list-style:none;margin-top:8px}
+  .gaps li{display:flex;gap:16px;padding:19px 0;border-bottom:1px solid var(--line);font-size:clamp(16px,1.7vw,18px);color:var(--paper-dim);line-height:1.55;align-items:flex-start}
+  .gaps li:first-child{border-top:1px solid var(--line)}
+  .gaps b{color:var(--paper);font-weight:400}
+  .gaps .ico{margin-top:3px}
+
+  /* ── approach ───────────────────────────── */
+  .approach{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
+  .ap{background:var(--ink);padding:clamp(22px,2.6vw,30px);transition:background .4s ease}
+  .ap:hover{background:var(--ink-3)}
+  .ap .num{font-family:var(--serif);font-size:13px;letter-spacing:.1em;color:var(--gold);display:block;margin-bottom:18px}
+  .ap h3{font-size:clamp(18px,1.9vw,21px);font-weight:500;letter-spacing:-.01em;margin-bottom:12px;line-height:1.3}
+  .ap p{font-size:clamp(15px,1.6vw,17px);color:var(--paper-faint);line-height:1.55}
+
+  .leak{
+    margin-top:40px;border:1px solid rgba(217,169,76,.28);background:var(--gold-soft);border-radius:6px;
+    padding:clamp(24px,3vw,36px);display:flex;gap:clamp(18px,2.4vw,30px);align-items:center;flex-wrap:wrap;
+  }
+  .leak .tag{font-size:clamp(13px,1.5vw,16px);letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold);white-space:nowrap}
+  .leak p{font-family:var(--serif);font-size:clamp(20px,2.7vw,32px);line-height:1.28;flex:1;min-width:260px}
+
+  /* ── steps ──────────────────────────────── */
+  .step{display:grid;grid-template-columns:96px 1fr;gap:clamp(18px,3vw,44px);padding:clamp(34px,3.6vw,50px) 0;border-bottom:1px solid var(--line)}
+  .step:first-of-type{border-top:1px solid var(--line)}
+  .step-n{font-family:var(--serif);font-size:clamp(40px,5vw,68px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(242,238,230,.28);transition:color .5s ease,-webkit-text-stroke-color .5s ease}
+  .step:hover .step-n{color:var(--gold);-webkit-text-stroke-color:var(--gold)}
+  .step h3{font-family:var(--serif);font-weight:400;font-size:clamp(31px,4.7vw,56px);line-height:1.04;letter-spacing:-.028em;margin-bottom:14px;display:flex;align-items:center;gap:clamp(12px,1.6vw,18px)}
+  .hico{width:clamp(22px,2.7vw,34px);height:clamp(22px,2.7vw,34px);stroke-width:1.15;opacity:.9}
+  .step .sub{font-size:clamp(18px,2vw,23px);font-weight:500;color:var(--paper);line-height:1.32;letter-spacing:-.012em;margin-bottom:14px;max-width:46ch}
+  .step p.d{font-size:clamp(17px,1.8vw,19px);color:var(--paper-dim);max-width:56ch;line-height:1.58}
+
+  .bullets{list-style:none;margin-top:24px;display:grid;gap:15px;max-width:64ch}
+  .bullets li{display:flex;gap:14px;font-size:clamp(16px,1.7vw,18px);color:var(--paper-faint);line-height:1.55;align-items:flex-start}
+  .bullets .ico{width:18px;height:18px;margin-top:3px}
+  .bullets b{color:var(--paper);font-weight:500;display:block;margin-bottom:2px}
+
+  .metric-inline{display:inline-flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:22px;border:1px solid var(--line-2);border-radius:6px;padding:16px 24px}
+  .metric-inline .t{font-size:clamp(14px,1.5vw,16px);color:var(--paper-faint);max-width:30ch}
+
+  .ring{width:72px;height:72px;flex-shrink:0}
+  .ring .bg{fill:none;stroke:var(--line-2);stroke-width:6}
+  .ring .fg{fill:none;stroke:var(--gold);stroke-width:6;stroke-linecap:round;stroke-dasharray:201;stroke-dashoffset:201;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1) .2s}
+  .rv.in .ring .fg{stroke-dashoffset:20}
+  .ring text{font-family:var(--serif);font-size:22px;fill:var(--paper)}
+
+  /* ── image placeholder ──────────────────── */
+  .imgslot{
+    margin-top:26px;border:1px dashed var(--line-2);border-radius:6px;background:var(--ink-2);
+    aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;text-align:center;padding:24px;
+  }
+  .imgslot .ico{width:26px;height:26px;margin-bottom:6px}
+  .imgslot .k{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .imgslot .n{font-family:var(--serif);font-size:clamp(18px,2.2vw,26px);color:var(--paper-dim)}
+  .imgslot .s{font-size:12px;color:var(--paper-faint);font-family:ui-monospace,Menlo,monospace}
+
+  /* ── results ────────────────────────────── */
+  .results{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:38px}
+  .r{background:var(--ink-2);padding:clamp(26px,3vw,38px);display:flex;flex-direction:column;gap:16px}
+  .r .vis{height:96px;display:flex;align-items:flex-end}
+  .r .big{font-family:var(--serif);font-size:clamp(42px,6.2vw,76px);line-height:.95;letter-spacing:-.03em;color:var(--gold)}
+  .r .big.grn{color:var(--green)}
+  .r .big.word{font-size:clamp(28px,4vw,48px);color:var(--paper)}
+  .r p{font-size:clamp(16px,1.7vw,18px);color:var(--paper-dim);line-height:1.5}
+
+  /* ── timeline ───────────────────────────── */
+  .timeline{margin-top:46px;border-top:1px solid var(--line);padding-top:36px}
+  .tl-head{font-size:clamp(13px,1.5vw,17px);letter-spacing:.2em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:24px}
+  .tl{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  .tl-item{position:relative;padding:30px 22px 0 0}
+  .tl-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--line)}
+  .tl-item::after{content:'';position:absolute;top:-5px;left:0;width:10px;height:10px;border-radius:50%;background:var(--ink-2);border:2px solid var(--gold)}
+  .tl-item:last-child::after{background:var(--green);border-color:var(--green);box-shadow:0 0 16px rgba(95,208,138,.5)}
+  .tl-item .w{font-family:var(--serif);font-size:clamp(24px,2.6vw,29px);color:var(--gold);margin-bottom:8px}
+  .tl-item:last-child .w{color:var(--green)}
+  .tl-item p{font-size:clamp(15px,1.6vw,17px);color:var(--paper-faint);line-height:1.5;max-width:28ch}
+
+  /* ── relief ─────────────────────────────── */
+  .relief{text-align:center;position:relative;overflow:hidden}
+  .relief::after{content:'';position:absolute;z-index:-1;left:50%;top:50%;transform:translate(-50%,-50%);width:min(120vw,1100px);height:min(120vw,1100px);border-radius:50%;background:radial-gradient(circle,rgba(95,208,138,.09) 0%,transparent 62%)}
+  .relief .eyebrow{justify-content:center}
+  .relief .eyebrow::after,.relief .eyebrow::before{content:'';flex:none;width:60px;height:1px;background:var(--line)}
+  .relief h2{font-size:clamp(38px,6.6vw,80px);max-width:16ch;margin:0 auto 24px}
+  .relief .lede{margin:0 auto}
+  .weekvis{max-width:620px;margin:40px auto 0}
+
+  .quoteslot{max-width:760px;margin:36px auto 0;border:1px dashed var(--line-2);border-radius:6px;padding:clamp(24px,3vw,34px);background:var(--ink-2);text-align:left}
+  .quoteslot .k{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .quoteslot p{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.6vw,30px);line-height:1.3;color:var(--paper-dim)}
+  .quoteslot .h{font-size:12px;color:var(--paper-faint);margin-top:16px;font-family:ui-monospace,Menlo,monospace}
+
+  /* ── insight ────────────────────────────── */
+  .insight{background:var(--paper);color:var(--ink);text-align:center}
+  .insight .eyebrow{color:var(--rust);justify-content:center}
+  .insight .eyebrow::after,.insight .eyebrow::before{content:'';flex:none;width:60px;height:1px;background:rgba(8,8,10,.16)}
+  .insight blockquote{font-family:var(--serif);font-size:clamp(30px,5.6vw,66px);line-height:1.1;letter-spacing:-.025em;max-width:17ch;margin:0 auto}
+  .insight .attr{margin-top:28px;font-size:clamp(12px,1.4vw,15px);letter-spacing:.24em;text-transform:uppercase;color:rgba(8,8,10,.45);font-weight:500}
+  .insight .quotemark{width:40px;height:auto;margin:0 auto 18px;display:block;opacity:.32}
+
+  /* ── final ──────────────────────────────── */
+  .final{text-align:center;position:relative;overflow:hidden;padding-top:clamp(70px,9vw,120px)}
+  .final::after{content:'';position:absolute;z-index:-1;left:50%;bottom:-55%;transform:translateX(-50%);width:min(140vw,1300px);height:min(140vw,1300px);border-radius:50%;background:radial-gradient(circle,rgba(196,100,60,.14) 0%,rgba(217,169,76,.06) 40%,transparent 66%);filter:blur(24px)}
+  .final h2{font-size:clamp(38px,7vw,84px);max-width:14ch;margin:0 auto 22px}
+  .final .lede{margin:0 auto 34px;text-align:center}
+
+  footer{border-top:1px solid var(--line);padding:26px var(--pad);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:12px;letter-spacing:.06em;color:var(--paper-faint);position:relative;z-index:2}
+  footer a{color:var(--paper-dim);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:2px}
+  footer a:hover{color:var(--gold);border-color:var(--gold)}
+
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+  .rv.in{opacity:1;transform:none}
+
+  @media(max-width:1000px){
+    .approach{grid-template-columns:repeat(2,1fr)}
+    .split{grid-template-columns:1fr;gap:40px}
+    .rgrid{grid-template-columns:1fr}
+    .tl{grid-template-columns:1fr;gap:32px}
+    .tl-item{padding-right:0}
+  }
+  @media(max-width:720px){
+    .stats{grid-template-columns:1fr}
+    .stat{border-right:none;border-bottom:1px solid var(--line);padding:26px 0}
+    .stat:last-child{border-bottom:none}
+    .step{grid-template-columns:1fr;gap:16px}
+    .step-n{font-size:38px}
+    .step h3{gap:12px}
+    .hico{width:20px;height:20px}
+    .nav-cta{display:none}
+    .hero-actions .btn{flex:1;justify-content:center}
+  }
+  @media(max-width:520px){.approach{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    .draw path,.draw line,.draw circle,.draw rect,.draw polyline{stroke-dashoffset:0}
+    .grow{transform:none}.fadein{opacity:1}
+    .ring .fg{stroke-dashoffset:20}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="nav">
+  <div class="nav-mark">Case Study &nbsp;·&nbsp; <b>Law Firm</b></div>
+  <a class="nav-cta" href="#book">Book a call</a>
+</nav>
+
+<!-- ═══ 1. HERO ════════════════════════════════ -->
+<header class="hero">
+  <div class="wrap" style="width:100%">
+    <div class="hero-tag rv"><span class="dot"></span> Fractional COO · Operations Case Study</div>
+    <div class="client rv">Law Firm · Name Withheld</div>
+    <h1 class="rv">Systems<span class="it">Synced</span></h1>
+    <p class="hero-sub rv">A law firm's online and offline teams stopped guessing once <b>Monday.com and Lawmatics finally told the same story.</b></p>
+
+    <div class="hero-actions rv">
+      <a class="btn btn-primary" href="#REPLACE-WITH-YOUR-CALENDLY-LINK">Book a discovery call <span class="arw">→</span></a>
+      <a class="btn btn-ghost" href="#challenge">Read the case study</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat up rv">
+        <div class="n"><span class="stat-ph">Add metric</span></div>
+        <div class="l">Hours reclaimed from manual status-chasing, weekly</div>
+      </div>
+      <div class="stat rv">
+        <div class="n"><span class="stat-ph">Add metric</span></div>
+        <div class="l">Case handoffs now moving without manual follow-up</div>
+      </div>
+      <div class="stat rv">
+        <div class="n"><span>2</span></div>
+        <div class="l">Disconnected systems merged into one shared view</div>
+        <svg class="spark" viewBox="0 0 180 44" fill="none" aria-hidden="true">
+          <circle cx="34" cy="22" r="14" fill="rgba(217,169,76,.14)" stroke="#D9A94C" stroke-width="1.4"/>
+          <circle cx="146" cy="22" r="14" fill="rgba(217,169,76,.14)" stroke="#D9A94C" stroke-width="1.4"/>
+          <path d="M48 22h84" stroke="#D9A94C" stroke-width="1.6" stroke-dasharray="3 5"/>
+          <path d="M120 16l12 6-12 6" stroke="#D9A94C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ 2. THE CHALLENGE ═══════════════════════ -->
+<section id="challenge">
+  <div class="wrap split">
+    <div>
+      <div class="rule rv"></div>
+      <h2 class="rv">The Challenge</h2>
+      <p class="h2sub rv">Stuck between <em>two systems.</em></p>
+      <p class="lede rv">The firm was running Monday.com and Lawmatics side by side, but neither told the same story. The online team worked one system, the offline team worked the other, and status lived wherever someone last updated it by hand.</p>
+
+      <div class="imgslot">
+        <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        <span class="k">Image Placeholder</span>
+        <span class="n">The before state: two trackers, no shared view</span>
+        <span class="s">img-01-before-state.png · 16:9 · 1600×900</span>
+      </div>
+    </div>
+
+    <div>
+      <p class="rv" style="font-size:clamp(13px,1.5vw,16px);letter-spacing:.17em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:500">Underneath it, 3 operational gaps</p>
+      <ul class="gaps">
+        <li class="rv">
+          <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
+          <span><b>Automations that misfired.</b> Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</span>
+        </li>
+        <li class="rv">
+          <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
+          <span><b>No shared view.</b> Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</span>
+        </li>
+        <li class="rv">
+          <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
+          <span><b>Two systems, one business.</b> Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3. THE APPROACH ════════════════════════ -->
+<section id="approach" style="background:var(--ink-2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="rule rv"></div>
+    <h2 class="rv">My Approach</h2>
+    <p class="h2sub rv">Audit <em>before</em> automate.</p>
+    <p class="lede rv">Before building anything new, both systems got audited on their own terms, then mapped against where online and offline work actually had to meet.</p>
+
+    <div class="approach">
+      <div class="ap rv">
+        <span class="num">01</span>
+        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.2-5.2"/></svg></div>
+        <h3>Audit Lawmatics</h3>
+        <p>Traced every existing automation to find where it was silently failing.</p>
+      </div>
+      <div class="ap rv">
+        <span class="num">02</span>
+        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Audit Monday.com</h3>
+        <p>Mapped what the offline team actually needed visibility into, day to day.</p>
+      </div>
+      <div class="ap rv">
+        <span class="num">03</span>
+        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.2"/><path d="M2 20c0-3.5 2.7-6.2 6-6.2s6 2.7 6 6.2"/><circle cx="17.5" cy="9" r="2.6"/><path d="M14.6 20c.3-2.8 2.3-5 5-5.6"/></svg></div>
+        <h3>Map the handoff</h3>
+        <p>Traced the full path from lead to intake to case, online team to offline team.</p>
+      </div>
+      <div class="ap rv">
+        <span class="num">04</span>
+        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6Z"/></svg></div>
+        <h3>Design the connection</h3>
+        <p>Planned how Zapier and Make would keep both systems in sync going forward.</p>
+      </div>
+    </div>
+
+    <div class="leak rv">
+      <svg class="ico" style="width:34px;height:34px" viewBox="0 0 24 24"><path d="M12 22c-4 0-6-2.6-6-6 0-4 6-12 6-12s6 8 6 12c0 3.4-2 6-6 6Z"/></svg>
+      <span class="tag">The Gap</span>
+      <p>Two systems, two teams, and neither dashboard talked to the other.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 4. THE BUILD ═══════════════════════════ -->
+<section id="build">
+  <div class="wrap">
+    <div class="rule rv"></div>
+    <h2 class="rv">The Build</h2>
+    <p class="h2sub rv" style="margin-bottom:40px">5 moves, one <em>shared system.</em></p>
+
+    <div class="step rv">
+      <div class="step-n">01</div>
+      <div>
+        <h3><svg class="ico hico" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6Z"/></svg><span>Fixed Lawmatics Automations</span></h3>
+        <p class="sub">The system of record could finally be trusted.</p>
+        <p class="d">The firm's Lawmatics automations were misfiring, silently breaking workflows the team depended on without anyone noticing until something fell through. Those were rebuilt from the ground up before anything else touched the system, so every automation downstream had a foundation that actually worked.</p>
+
+        <div class="figure" style="margin-top:24px">
+          <svg class="ill" viewBox="0 0 720 176" fill="none" aria-label="Manual chasing replaced by one continuous automated flow">
+            <text x="20" y="24" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.8" fill="rgba(196,100,60,.85)">BEFORE: BREAKING SILENTLY</text>
+            <g class="fadein">
+              <rect x="20" y="36" width="130" height="30" rx="5" fill="rgba(196,100,60,.14)" stroke="rgba(196,100,60,.3)"/>
+              <rect x="196" y="36" width="130" height="30" rx="5" fill="rgba(196,100,60,.14)" stroke="rgba(196,100,60,.3)"/>
+              <rect x="372" y="36" width="130" height="30" rx="5" fill="rgba(196,100,60,.14)" stroke="rgba(196,100,60,.3)"/>
+              <rect x="548" y="36" width="130" height="30" rx="5" fill="rgba(196,100,60,.14)" stroke="rgba(196,100,60,.3)"/>
+              <g stroke="rgba(196,100,60,.5)" stroke-width="1.2" stroke-dasharray="3 4">
+                <path d="M150 51h46"/><path d="M326 51h46"/><path d="M502 51h46"/>
+              </g>
+            </g>
+            <text x="20" y="110" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.8" fill="#5FD08A">AFTER: ONE CONTINUOUS FLOW</text>
+            <g class="fadein" style="transition-delay:.35s">
+              <rect x="20" y="122" width="658" height="30" rx="15" fill="rgba(95,208,138,.12)" stroke="rgba(95,208,138,.4)"/>
+              <g stroke="#5FD08A" stroke-width="1.4" fill="none" stroke-linecap="round">
+                <path d="M186 137h56"/><path d="M232 131l7 6-7 6"/>
+                <path d="M406 137h56"/><path d="M452 131l7 6-7 6"/>
+              </g>
+              <circle cx="96" cy="137" r="7" fill="rgba(95,208,138,.3)"/>
+              <circle cx="600" cy="137" r="7" fill="rgba(95,208,138,.3)"/>
+            </g>
+          </svg>
+          <div class="cap">Lawmatics automations rebuilt end to end</div>
+        </div>
+
+        <div class="imgslot">
+          <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="k">Image Placeholder</span>
+          <span class="n">Lawmatics automation builder, before and after</span>
+          <span class="s">img-02-lawmatics-automations.png · 16:9 · 1600×900</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">02</div>
+      <div>
+        <h3><svg class="ico hico" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg><span>Built Dashboards on Lawmatics</span></h3>
+        <p class="sub">The case and client side became visible at a glance.</p>
+        <p class="d">With the automations fixed, the CRM's data was finally trustworthy enough to build reporting on top of. New dashboards gave the online team, and leadership, a real-time view into where every case actually stood, instead of clicking through individual records to find out.</p>
+
+        <div class="figure" style="margin-top:24px">
+          <svg class="ill draw" viewBox="0 0 720 176" style="--len:220" fill="none" aria-label="Multiple case records rolling up into one dashboard panel">
+            <g stroke="rgba(217,169,76,.45)" stroke-width="1.2" fill="none">
+              <path d="M75 150 V128 H360 V104"/><path d="M220 150 V128"/>
+              <path d="M365 150 V128"/><path d="M510 150 V128"/><path d="M650 150 V128 H360"/>
+            </g>
+            <g class="fadein" style="transition-delay:.15s">
+              <rect x="20" y="150" width="110" height="20" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)"/>
+              <rect x="165" y="150" width="110" height="20" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)"/>
+              <rect x="310" y="150" width="110" height="20" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)"/>
+              <rect x="455" y="150" width="110" height="20" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)"/>
+              <rect x="600" y="150" width="100" height="20" rx="4" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)"/>
+            </g>
+            <g class="fadein" style="transition-delay:.4s">
+              <rect x="200" y="66" width="320" height="42" rx="8" fill="rgba(217,169,76,.1)" stroke="rgba(217,169,76,.45)"/>
+              <text x="360" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="2" fill="#D9A94C">CASE STATUS DASHBOARD</text>
+            </g>
+          </svg>
+          <div class="cap">One dashboard, every case status in view</div>
+        </div>
+
+        <div class="imgslot">
+          <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="k">Image Placeholder</span>
+          <span class="n">Lawmatics dashboard, live view</span>
+          <span class="s">img-03-lawmatics-dashboard.png · 16:9 · 1600×900</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">03</div>
+      <div>
+        <h3><svg class="ico hico" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6Z"/></svg><span>Built Automations on Monday.com</span></h3>
+        <p class="sub">The offline team stopped chasing status by hand.</p>
+        <p class="d">On the operations side, Monday.com automations took over the manual handoffs and status updates that used to depend on someone remembering to do them, so work moved forward without a person having to push it at every step.</p>
+
+        <ul class="bullets">
+          <li>
+            <svg class="ico" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>
+            <span><b>Handoffs trigger themselves.</b> Status changes now move a task to the next owner automatically.</span>
+          </li>
+          <li>
+            <svg class="ico" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>
+            <span><b>Nothing waits on a reminder.</b> The team stopped relying on someone remembering to update the board.</span>
+          </li>
+        </ul>
+
+        <div class="imgslot">
+          <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="k">Image Placeholder</span>
+          <span class="n">Monday.com automation recipe</span>
+          <span class="s">img-04-monday-automations.png · 16:9 · 1600×900</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">04</div>
+      <div>
+        <h3><svg class="ico hico" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg><span>Built Dashboards on Monday.com</span></h3>
+        <p class="sub">The offline team got the same visibility the online team now had.</p>
+        <p class="d">A matching set of dashboards went up on Monday.com, giving the operations side of the business the same real-time view Lawmatics now gave the case side, so both teams were finally looking at the same picture instead of two separate ones.</p>
+
+        <div class="metric-inline">
+          <svg class="ring" viewBox="0 0 72 72" aria-hidden="true">
+            <circle class="bg" cx="36" cy="36" r="32"/>
+            <circle class="fg" cx="36" cy="36" r="32"/>
+            <text x="36" y="43" text-anchor="middle">2/2</text>
+          </svg>
+          <span class="t">Both systems now carrying a live dashboard, not just one.</span>
+        </div>
+
+        <div class="imgslot">
+          <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="k">Image Placeholder</span>
+          <span class="n">Monday.com dashboard, live view</span>
+          <span class="s">img-05-monday-dashboard.png · 16:9 · 1600×900</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-n">05</div>
+      <div>
+        <h3><svg class="ico hico" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Connected Everything, Including Ads</span></h3>
+        <p class="sub">Online and offline finally ran off the same data.</p>
+        <p class="d">Zapier and Make became the connective layer between Monday.com and Lawmatics, so an update in one system reflected in the other automatically. The ads team was folded into the same system too, so marketing activity fed directly into intake instead of running in its own disconnected corner.</p>
+
+        <ul class="bullets">
+          <li>
+            <svg class="ico" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>
+            <span><b>Real-time sync.</b> Monday.com and Lawmatics stay in step with each other, no manual double-entry.</span>
+          </li>
+          <li>
+            <svg class="ico" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>
+            <span><b>Ads plugged in.</b> Marketing activity now feeds the same system intake runs on, instead of sitting outside it.</span>
+          </li>
+        </ul>
+
+        <div class="imgslot">
+          <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="k">Image Placeholder</span>
+          <span class="n">Zapier / Make connection between Monday.com and Lawmatics</span>
+          <span class="s">img-06-connected-flow.png · 16:9 · 1600×900</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5. RESULTS ═════════════════════════════ -->
+<section class="results">
+  <div class="wrap">
+    <div class="rule rv"></div>
+    <h2 class="rv">Measurable Success</h2>
+    <p class="h2sub rv">What changed, once both systems <em>agreed.</em></p>
+
+    <div class="rgrid">
+      <div class="r rv">
+        <div class="vis">
+          <svg viewBox="0 0 200 96" fill="none" style="width:100%;height:100%" aria-label="Fewer manual status updates each week">
+            <rect class="grow" x="6" y="60" width="26" height="30" rx="3" fill="rgba(95,208,138,.22)"/>
+            <rect class="grow" x="42" y="48" width="26" height="42" rx="3" fill="rgba(95,208,138,.32)" style="transition-delay:.1s"/>
+            <rect class="grow" x="78" y="34" width="26" height="56" rx="3" fill="rgba(95,208,138,.45)" style="transition-delay:.2s"/>
+            <rect class="grow" x="114" y="20" width="26" height="70" rx="3" fill="rgba(95,208,138,.62)" style="transition-delay:.3s"/>
+            <g class="fadein" style="transition-delay:.55s">
+              <path d="M152 74 L186 22" stroke="#5FD08A" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M170 21h17v17" stroke="#5FD08A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="big grn"><span class="stat-ph">Add metric</span></div>
+        <p>Fewer manual status updates chased down each week.</p>
+      </div>
+      <div class="r rv">
+        <div class="vis">
+          <svg viewBox="0 0 200 96" fill="none" style="width:100%;height:100%" aria-label="Handoffs moving without manual follow-up">
+            <circle cx="48" cy="48" r="34" fill="none" stroke="var(--line-2)" stroke-width="7"/>
+            <circle class="fg2" cx="48" cy="48" r="34" fill="none" stroke="#D9A94C" stroke-width="7" stroke-linecap="round" stroke-dasharray="214" stroke-dashoffset="150" transform="rotate(-90 48 48)"/>
+            <g font-family="Inter,sans-serif" font-size="9" fill="rgba(242,238,230,.5)">
+              <text x="110" y="30">Handoffs</text>
+              <text x="110" y="50">now moving</text>
+              <text x="110" y="70">on their own</text>
+            </g>
+          </svg>
+        </div>
+        <div class="big"><span class="stat-ph">Add metric</span></div>
+        <p>Of case handoffs now moving without manual follow-up.</p>
+      </div>
+      <div class="r rv">
+        <div class="vis">
+          <svg viewBox="0 0 200 96" fill="none" style="width:100%;height:100%" aria-label="Two systems now sharing one view">
+            <path d="M12 22 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5Z" transform="translate(140,0) scale(1.6)" fill="rgba(95,208,138,.14)" stroke="#5FD08A" stroke-width="1.4"/>
+            <path d="m9 12 2 2 4-4" transform="translate(140,0) scale(1.6)" stroke="#5FD08A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="10" y="50" font-family="Inter,sans-serif" font-size="10" fill="rgba(242,238,230,.5)">Monday.com</text>
+            <text x="10" y="68" font-family="Inter,sans-serif" font-size="10" fill="rgba(242,238,230,.5)">+ Lawmatics</text>
+          </svg>
+        </div>
+        <div class="big word">Unified</div>
+        <p>Monday.com and Lawmatics now show the same picture, in real time.</p>
+      </div>
+    </div>
+
+    <div class="figure rv" style="margin-top:40px">
+      <svg class="ill" viewBox="0 0 900 260" fill="none" aria-label="One connected system between leadership and the day-to-day work">
+        <g class="fadein">
+          <rect x="366" y="18" width="168" height="42" rx="8" fill="rgba(95,208,138,.1)" stroke="rgba(95,208,138,.45)"/>
+          <text x="450" y="44" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="2" fill="#5FD08A">LEADERSHIP</text>
+        </g>
+        <g class="draw" style="--len:120" stroke="rgba(95,208,138,.5)" stroke-width="1.4">
+          <path d="M450 60v30"/>
+        </g>
+        <g class="fadein" style="transition-delay:.3s">
+          <rect x="70" y="90" width="760" height="52" rx="10" fill="rgba(217,169,76,.09)" stroke="rgba(217,169,76,.45)"/>
+          <text x="450" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="2.2" fill="#D9A94C">THE CONNECTED SYSTEM</text>
+          <text x="450" y="130" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.2" fill="rgba(242,238,230,.45)">LAWMATICS · MONDAY.COM · ZAPIER · MAKE · ADS COORDINATION</text>
+        </g>
+        <g class="draw" style="--len:120" stroke="rgba(217,169,76,.4)" stroke-width="1.2">
+          <path d="M150 142v34"/><path d="M310 142v34"/><path d="M450 142v34"/>
+          <path d="M590 142v34"/><path d="M750 142v34"/>
+        </g>
+        <g class="fadein" style="transition-delay:.55s">
+          <g fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.14)">
+            <rect x="106" y="176" width="88" height="42" rx="6"/>
+            <rect x="266" y="176" width="88" height="42" rx="6"/>
+            <rect x="406" y="176" width="88" height="42" rx="6"/>
+            <rect x="546" y="176" width="88" height="42" rx="6"/>
+            <rect x="706" y="176" width="88" height="42" rx="6"/>
+          </g>
+          <text x="450" y="246" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="2" fill="rgba(242,238,230,.3)">ONLINE TEAM + OFFLINE TEAM</text>
+        </g>
+      </svg>
+      <div class="cap">After: one connected system, both teams, same picture</div>
+    </div>
+
+    <div class="timeline rv">
+      <div class="tl-head">Three phases, start to finish</div>
+      <div class="tl">
+        <div class="tl-item"><div class="w">Phase 01</div><p>Audited Lawmatics and Monday.com, fixed the broken Lawmatics automations.</p></div>
+        <div class="tl-item"><div class="w">Phase 02</div><p>Built dashboards on both systems and new Monday.com automations.</p></div>
+        <div class="tl-item"><div class="w">Phase 03</div><p>Connected both systems via Zapier and Make, folded in ads coordination.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7. THE HUMAN OUTCOME ═══════════════════ -->
+<section class="relief">
+  <div class="narrow">
+    <div class="eyebrow rv">The outcome that mattered most</div>
+    <h2 class="rv">One system to trust, not two to reconcile.</h2>
+    <p class="lede rv" style="text-align:center">From chasing status across two systems that never agreed, to one shared view the whole team works from.</p>
+
+    <div class="weekvis rv">
+      <svg class="ill" viewBox="0 0 620 150" fill="none" aria-label="Time shifted from firefighting across two systems to working from one shared view">
+        <text x="0" y="18" font-family="Inter,sans-serif" font-size="9" letter-spacing="2" fill="rgba(196,100,60,.9)">BEFORE</text>
+        <rect class="grow" x="0" y="30" width="620" height="26" rx="6" fill="rgba(196,100,60,.16)" stroke="rgba(196,100,60,.3)"/>
+        <text x="310" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="1.2" fill="rgba(242,238,230,.7)">RECONCILING TWO SYSTEMS BY HAND</text>
+        <text x="0" y="98" font-family="Inter,sans-serif" font-size="9" letter-spacing="2" fill="#5FD08A">AFTER</text>
+        <rect class="grow" x="0" y="110" width="196" height="26" rx="6" fill="rgba(217,169,76,.16)" stroke="rgba(217,169,76,.32)"/>
+        <rect class="grow" x="208" y="110" width="412" height="26" rx="6" fill="rgba(95,208,138,.16)" stroke="rgba(95,208,138,.4)"/>
+        <text x="98" y="127" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1" fill="rgba(242,238,230,.55)">STILL HANDS-ON</text>
+        <text x="414" y="127" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1" fill="rgba(242,238,230,.55)">RUNS ON ITS OWN</text>
+      </svg>
+    </div>
+
+    <div class="quoteslot rv">
+      <div class="k">Placeholder · leadership quote</div>
+      <p>"[One specific line about what it felt like once both systems finally agreed. The real moment, not a summary.]"</p>
+      <div class="h">Replace with a real quote, or delete this block entirely.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8. KEY INSIGHT ═════════════════════════ -->
+<section class="insight">
+  <div class="narrow">
+    <svg class="quotemark rv" viewBox="0 0 44 32" fill="none" aria-hidden="true">
+      <path d="M0 32V18C0 8 6 1.5 16 0l2 5c-5.5 1.5-8.5 5-8.5 9H17v18Zm27 0V18C27 8 33 1.5 43 0l1 5c-5.5 1.5-8.5 5-8.5 9H44v18Z" fill="#C4643C"/>
+    </svg>
+    <div class="eyebrow rv">Key Insight</div>
+    <blockquote class="rv">A referral-based firm runs on trust, and trust breaks the moment two systems stop agreeing with each other.</blockquote>
+    <div class="attr rv">Law Firm · Operations Case Study</div>
+  </div>
+</section>
+
+<!-- ═══ 9. CTA ═════════════════════════════════ -->
+<section class="final" id="book">
+  <div class="narrow">
+    <div class="eyebrow rv" style="justify-content:center">Work with me</div>
+    <h2 class="rv">Still keeping two systems in sync yourself?</h2>
+    <p class="lede rv" style="text-align:center">If your team is split across tools that don't talk to each other, that's not a tooling problem, it's a systems problem, and it's fixable.</p>
+    <a class="btn btn-primary rv" href="#REPLACE-WITH-YOUR-CALENDLY-LINK">Book a discovery call <span class="arw">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div>Fractional COO · Operations &amp; Systems</div>
+  <div><a href="#REPLACE-WITH-YOUR-CALENDLY-LINK">Book a call</a> &nbsp;·&nbsp; <a href="mailto:athmanaajith@gmail.com">Email</a></div>
+</footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav'), bar=document.getElementById('progress');
+  function onScroll(){
+    var y=window.scrollY||document.documentElement.scrollTop;
+    nav.classList.toggle('stuck', y>60);
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?(y/h)*100:0)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  var groups=new WeakMap();
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target, p=el.parentElement;
+      var i=groups.get(p)||0; groups.set(p,i+1);
+      el.style.transitionDelay=(Math.min(i,6)*70)+'ms';
+      el.classList.add('in');
+      el.querySelectorAll('.fg2').forEach(function(c){
+        setTimeout(function(){ c.style.transition='stroke-dashoffset 1.5s cubic-bezier(.22,1,.36,1)'; c.style.strokeDashoffset='60'; },200);
+      });
+      io.unobserve(el);
+    });
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  var cio=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target, target=parseFloat(el.dataset.count);
+      var pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
+      var t0=null, dur=1300;
+      function tick(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/dur,1), eased=1-Math.pow(1-p,3);
+        el.textContent=pre+Math.round(target*eased)+suf;
+        if(p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      cio.unobserve(el);
+    });
+  },{threshold:.5});
+  document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el);});
+})();
+</script>
+</body>
+</html>
