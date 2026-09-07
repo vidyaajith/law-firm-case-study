@@ -144,8 +144,7 @@
   .icobox.red{background:var(--rust-soft);border-color:rgba(196,100,60,.24)}
   .icobox.grn{background:var(--green-soft);border-color:rgba(95,208,138,.24)}
 
-  /* ── challenge ──────────────────────────── */
-  .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,4.4vw,68px);align-items:start}
+  /* ── challenge / audit ──────────────────── */
   .gaps{list-style:none;margin-top:8px}
   .gaps li{display:flex;gap:16px;padding:19px 0;border-bottom:1px solid var(--line);font-size:clamp(16px,1.7vw,18px);color:var(--paper-dim);line-height:1.55;align-items:flex-start}
   .gaps li:first-child{border-top:1px solid var(--line)}
@@ -261,7 +260,6 @@
 
   @media(max-width:1000px){
     .approach{grid-template-columns:repeat(2,1fr)}
-    .split{grid-template-columns:1fr;gap:40px}
     .rgrid{grid-template-columns:1fr}
     .ggrid{grid-template-columns:1fr}
     .tl{grid-template-columns:1fr;gap:32px}
@@ -340,37 +338,17 @@
 
 <!-- ═══ 2. THE CHALLENGE ═══════════════════════ -->
 <section id="challenge">
-  <div class="wrap split">
-    <div>
-      <div class="rule rv"></div>
-      <h2 class="rv">The Challenge</h2>
-      <p class="h2sub rv">Stuck between <em>two systems.</em></p>
-      <p class="lede rv">The firm was running Monday.com and Lawmatics side by side, but neither told the same story. The online team worked one system, the offline team worked the other, and status lived wherever someone last updated it by hand.</p>
+  <div class="wrap">
+    <div class="rule rv"></div>
+    <h2 class="rv">The Challenge</h2>
+    <p class="h2sub rv">Stuck between <em>two systems.</em></p>
+    <p class="lede rv">The firm was running Monday.com and Lawmatics side by side, but neither told the same story. The online team worked one system, the offline team worked the other, and status lived wherever someone last updated it by hand.</p>
 
-      <div class="imgslot">
-        <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-        <span class="k">Image Placeholder</span>
-        <span class="n">The before state: two trackers, no shared view</span>
-        <span class="s">img-01-before-state.png · 16:9 · 1600×900</span>
-      </div>
-    </div>
-
-    <div>
-      <p class="rv" style="font-size:clamp(13px,1.5vw,16px);letter-spacing:.17em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:20px;font-weight:500">Underneath it, 3 operational gaps</p>
-      <ul class="gaps">
-        <li class="rv">
-          <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
-          <span><b>Automations that misfired.</b> Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</span>
-        </li>
-        <li class="rv">
-          <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
-          <span><b>No shared view.</b> Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</span>
-        </li>
-        <li class="rv">
-          <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
-          <span><b>Two systems, one business.</b> Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</span>
-        </li>
-      </ul>
+    <div class="imgslot">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <span class="k">Image Placeholder</span>
+      <span class="n">The before state: two trackers, no shared view</span>
+      <span class="s">img-01-before-state.png · 16:9 · 1600×900</span>
     </div>
   </div>
 </section>
@@ -415,6 +393,29 @@
       <span class="tag">The Gap</span>
       <p>Two systems, two teams, and neither dashboard talked to the other.</p>
     </div>
+  </div>
+</section>
+
+<!-- ═══ 3b. AUDIT FINDINGS ═════════════════════ -->
+<section id="audit" style="background:var(--ink-2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="rule rv"></div>
+    <h2 class="rv">Audit Findings</h2>
+    <p class="h2sub rv">Underneath it, <em>3 operational gaps.</em></p>
+    <ul class="gaps">
+      <li class="rv">
+        <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
+        <span><b>Automations that misfired.</b> Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</span>
+      </li>
+      <li class="rv">
+        <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
+        <span><b>No shared view.</b> Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</span>
+      </li>
+      <li class="rv">
+        <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
+        <span><b>Two systems, one business.</b> Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</span>
+      </li>
+    </ul>
   </div>
 </section>
 
