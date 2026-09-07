@@ -105,19 +105,15 @@
   .btn .arw{transition:transform .35s cubic-bezier(.22,1,.36,1)}
   .btn:hover .arw{transform:translateX(4px)}
 
-  /* ── hero stats ─────────────────────────── */
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
-  .stat{padding:24px 24px 0 0;border-right:1px solid var(--line)}
-  .stat:last-child{border-right:none}
-  .stat .n{font-family:var(--serif);font-size:clamp(36px,5vw,62px);line-height:1;letter-spacing:-.02em;display:flex;align-items:center;gap:14px;margin-bottom:10px}
-  .stat .n span{color:var(--gold)}
-  .stat.up .n{color:var(--green)}
-  .stat.up .n span{color:var(--green)}
-  .stat .l{font-size:clamp(13px,1.4vw,15px);letter-spacing:.05em;color:var(--paper-faint);line-height:1.45;max-width:22ch}
-  .uparrow{width:clamp(26px,3.4vw,40px);height:auto;flex-shrink:0}
-  .spark{display:block;margin-top:14px;width:100%;max-width:180px;height:auto}
-  .stat-ph{font-family:var(--sans);font-size:clamp(13px,1.5vw,15px);letter-spacing:.06em;color:var(--gold);
-           border:1px dashed var(--line-2);border-radius:6px;padding:10px 16px;display:inline-block;line-height:1.3}
+  /* ── results at a glance ─────────────────── */
+  .glance{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:26px}
+  .g{background:var(--ink-2);padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:10px}
+  .g .icobox{margin-bottom:2px}
+  .g .big{font-family:var(--serif);font-size:clamp(28px,3.8vw,44px);line-height:.95;letter-spacing:-.03em;color:var(--gold)}
+  .g .big.grn{color:var(--green)}
+  .g .ttl{font-family:var(--serif);font-size:clamp(17px,1.9vw,20px);font-weight:400;line-height:1.2;letter-spacing:-.015em;color:var(--paper-dim)}
+  .g .sub{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-faint)}
 
   /* ── illustration primitives ────────────── */
   .ill{display:block;width:100%;height:auto}
@@ -146,6 +142,7 @@
     background:var(--gold-soft);border:1px solid rgba(217,169,76,.2);margin-bottom:24px;
   }
   .icobox.red{background:var(--rust-soft);border-color:rgba(196,100,60,.24)}
+  .icobox.grn{background:var(--green-soft);border-color:rgba(95,208,138,.24)}
 
   /* ── challenge ──────────────────────────── */
   .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,4.4vw,68px);align-items:start}
@@ -266,13 +263,11 @@
     .approach{grid-template-columns:repeat(2,1fr)}
     .split{grid-template-columns:1fr;gap:40px}
     .rgrid{grid-template-columns:1fr}
+    .ggrid{grid-template-columns:1fr}
     .tl{grid-template-columns:1fr;gap:32px}
     .tl-item{padding-right:0}
   }
   @media(max-width:720px){
-    .stats{grid-template-columns:1fr}
-    .stat{border-right:none;border-bottom:1px solid var(--line);padding:26px 0}
-    .stat:last-child{border-bottom:none}
     .step{grid-template-columns:1fr;gap:16px}
     .step-n{font-size:38px}
     .step h3{gap:12px}
@@ -313,38 +308,35 @@
       <a class="btn btn-ghost" href="#challenge">Read the case study</a>
     </div>
 
-    <div class="stats">
-      <div class="stat up rv">
-        <div class="n">
-          <span style="font-size:.78em">5–6 hrs/wk</span>
-          <svg class="uparrow" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <path d="M10 30 26 14" stroke="#5FD08A" stroke-width="3" stroke-linecap="round"/>
-            <path d="M14 14h16v16" stroke="#5FD08A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="l">Hours reclaimed from manual status-chasing, weekly</div>
-        <svg class="spark" viewBox="0 0 180 44" fill="none" aria-hidden="true">
-          <polyline points="4,38 40,30 76,32 112,18 176,6" stroke="#5FD08A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="176" cy="6" r="3.5" fill="#5FD08A"/>
-        </svg>
+  </div>
+</header>
+
+<!-- ═══ 1b. RESULTS AT A GLANCE ═════════════════ -->
+<section class="glance">
+  <div class="wrap">
+    <div class="eyebrow rv">Results at a glance</div>
+    <div class="ggrid">
+      <div class="g rv">
+        <div class="icobox grn"><svg class="ico grn" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></div>
+        <div class="big grn">5–6 hrs/wk</div>
+        <div class="ttl">Hours reclaimed weekly</div>
+        <div class="sub">From manual status-chasing</div>
       </div>
-      <div class="stat rv">
-        <div class="n"><span style="font-size:.78em">Automated</span></div>
-        <div class="l">Most handoffs used to need manual follow-up, not anymore</div>
+      <div class="g rv">
+        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div>
+        <div class="big">Automated</div>
+        <div class="ttl">Case handoffs</div>
+        <div class="sub">No manual follow-up needed</div>
       </div>
-      <div class="stat rv">
-        <div class="n"><span>2</span></div>
-        <div class="l">Disconnected systems merged into one shared view</div>
-        <svg class="spark" viewBox="0 0 180 44" fill="none" aria-hidden="true">
-          <circle cx="34" cy="22" r="14" fill="rgba(217,169,76,.14)" stroke="#D9A94C" stroke-width="1.4"/>
-          <circle cx="146" cy="22" r="14" fill="rgba(217,169,76,.14)" stroke="#D9A94C" stroke-width="1.4"/>
-          <path d="M48 22h84" stroke="#D9A94C" stroke-width="1.6" stroke-dasharray="3 5"/>
-          <path d="M120 16l12 6-12 6" stroke="#D9A94C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
+      <div class="g rv">
+        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="12" r="7"/><circle cx="15" cy="12" r="7"/></svg></div>
+        <div class="big">2</div>
+        <div class="ttl">Systems merged</div>
+        <div class="sub">Into one shared view</div>
       </div>
     </div>
   </div>
-</header>
+</section>
 
 <!-- ═══ 2. THE CHALLENGE ═══════════════════════ -->
 <section id="challenge">
