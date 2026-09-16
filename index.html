@@ -183,14 +183,6 @@
   .bullets .ico{width:18px;height:18px;margin-top:3px}
   .bullets b{color:var(--paper);font-weight:500;display:block;margin-bottom:2px}
 
-  .metric-inline{display:inline-flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:22px;border:1px solid var(--line-2);border-radius:6px;padding:16px 24px}
-  .metric-inline .t{font-size:clamp(14px,1.5vw,16px);color:var(--paper-faint);max-width:30ch}
-
-  .ring{width:72px;height:72px;flex-shrink:0}
-  .ring .bg{fill:none;stroke:var(--line-2);stroke-width:6}
-  .ring .fg{fill:none;stroke:var(--gold);stroke-width:6;stroke-linecap:round;stroke-dasharray:201;stroke-dashoffset:201;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1) .2s}
-  .rv.in .ring .fg{stroke-dashoffset:20}
-  .ring text{font-family:var(--serif);font-size:22px;fill:var(--paper)}
 
   /* ── image placeholder ──────────────────── */
   .imgslot{
@@ -277,7 +269,6 @@
     .rv{opacity:1;transform:none}
     .draw path,.draw line,.draw circle,.draw rect,.draw polyline{stroke-dashoffset:0}
     .grow{transform:none}.fadein{opacity:1}
-    .ring .fg{stroke-dashoffset:20}
     html{scroll-behavior:auto}
   }
 </style>
@@ -528,15 +519,6 @@
         <h3><svg class="ico hico" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg><span>Built Dashboards on Monday.com</span></h3>
         <p class="sub">The offline team got the same visibility the online team now had.</p>
         <p class="d">A matching set of dashboards went up on Monday.com, giving the operations side of the business the same real-time view Lawmatics now gave the case side, so both teams were finally looking at the same picture instead of two separate ones.</p>
-
-        <div class="metric-inline">
-          <svg class="ring" viewBox="0 0 72 72" aria-hidden="true">
-            <circle class="bg" cx="36" cy="36" r="32"/>
-            <circle class="fg" cx="36" cy="36" r="32"/>
-            <text x="36" y="43" text-anchor="middle">2/2</text>
-          </svg>
-          <span class="t">Both systems now carrying a live dashboard, not just one.</span>
-        </div>
 
         <div class="figure" style="margin-top:26px">
           <img src="img-05-monday-dashboard.png" alt="Monday.com Case Tracker board showing active matters and retained clients with status, value, and likelihood columns" style="display:block;width:100%;height:auto;border-radius:4px">
