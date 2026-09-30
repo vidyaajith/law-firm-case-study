@@ -146,20 +146,25 @@
   .icobox.red{background:var(--rust-soft);border-color:rgba(196,100,60,.24)}
   .icobox.grn{background:var(--green-soft);border-color:rgba(95,208,138,.24)}
 
-  /* ── challenge / audit ──────────────────── */
-  .gaps{list-style:none;margin-top:8px}
-  .gaps li{display:flex;gap:16px;padding:19px 0;border-bottom:1px solid var(--line);font-size:clamp(16px,1.7vw,18px);color:var(--paper-dim);line-height:1.55;align-items:flex-start}
-  .gaps li:first-child{border-top:1px solid var(--line)}
-  .gaps b{color:var(--paper);font-weight:400}
-  .gaps .ico{margin-top:3px}
+  /* ── audit findings ──────────────────────── */
+  .findings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:28px}
+  .find{background:var(--ink);padding:clamp(24px,2.8vw,32px);display:flex;flex-direction:column;gap:12px;transition:background .4s ease}
+  .find:hover{background:var(--ink-3)}
+  .find h3{font-size:clamp(17px,1.8vw,19px);font-weight:500;letter-spacing:-.01em;line-height:1.3;color:var(--paper)}
+  .find p{font-size:clamp(14px,1.5vw,16px);color:var(--paper-faint);line-height:1.58}
 
-  /* ── approach ───────────────────────────── */
-  .approach{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:40px}
-  .ap{background:var(--ink);padding:clamp(22px,2.6vw,30px);transition:background .4s ease}
-  .ap:hover{background:var(--ink-3)}
-  .ap .num{font-family:var(--serif);font-size:13px;letter-spacing:.1em;color:var(--gold);display:block;margin-bottom:18px}
-  .ap h3{font-size:clamp(18px,1.9vw,21px);font-weight:500;letter-spacing:-.01em;margin-bottom:12px;line-height:1.3}
-  .ap p{font-size:clamp(15px,1.6vw,17px);color:var(--paper-faint);line-height:1.55}
+  /* ── approach (connected flow) ──────────── */
+  .approach-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.6vw,32px);margin-top:44px;position:relative}
+  .approach-flow::before{content:'';position:absolute;top:23px;left:22px;right:22px;height:1px;background:var(--line-2)}
+  .af{position:relative}
+  .af-ico{
+    width:46px;height:46px;border-radius:50%;background:var(--ink-2);border:1px solid var(--line-2);
+    display:flex;align-items:center;justify-content:center;margin-bottom:20px;position:relative;z-index:1;
+  }
+  .af-ico .ico{width:19px;height:19px}
+  .af-n{font-family:var(--serif);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .af h3{font-size:clamp(17px,1.8vw,19px);font-weight:500;letter-spacing:-.01em;margin-bottom:10px;line-height:1.3}
+  .af p{font-size:clamp(14px,1.5vw,16px);color:var(--paper-faint);line-height:1.55}
 
   .leak{
     margin-top:32px;border:1px solid rgba(217,169,76,.28);background:var(--gold-soft);border-radius:6px;
@@ -248,7 +253,9 @@
   .rv.in{opacity:1;transform:none}
 
   @media(max-width:1000px){
-    .approach{grid-template-columns:repeat(2,1fr)}
+    .approach-flow{grid-template-columns:repeat(2,1fr);row-gap:36px}
+    .approach-flow::before{display:none}
+    .findings-grid{grid-template-columns:1fr}
     .rgrid{grid-template-columns:1fr}
     .ggrid{grid-template-columns:1fr}
     .figure-grid{grid-template-columns:1fr}
@@ -263,7 +270,7 @@
     .nav-cta{display:none}
     .hero-actions .btn{flex:1;justify-content:center}
   }
-  @media(max-width:520px){.approach{grid-template-columns:1fr}}
+  @media(max-width:520px){.approach-flow{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
     .rv{opacity:1;transform:none}
@@ -348,28 +355,28 @@
     <p class="h2sub rv">Audit <em>before</em> automate.</p>
     <p class="lede rv">Before building anything new, both systems got audited on their own terms, then mapped against where online and offline work actually had to meet.</p>
 
-    <div class="approach">
-      <div class="ap rv">
-        <span class="num">01</span>
-        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.2-5.2"/></svg></div>
+    <div class="approach-flow">
+      <div class="af rv">
+        <div class="af-ico"><svg class="ico" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.2-5.2"/></svg></div>
+        <div class="af-n">01</div>
         <h3>Audit Lawmatics</h3>
         <p>Traced every existing automation to find where it was silently failing.</p>
       </div>
-      <div class="ap rv">
-        <span class="num">02</span>
-        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="af rv">
+        <div class="af-ico"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="af-n">02</div>
         <h3>Audit Monday.com</h3>
         <p>Mapped what the offline team actually needed visibility into, day to day.</p>
       </div>
-      <div class="ap rv">
-        <span class="num">03</span>
-        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.2"/><path d="M2 20c0-3.5 2.7-6.2 6-6.2s6 2.7 6 6.2"/><circle cx="17.5" cy="9" r="2.6"/><path d="M14.6 20c.3-2.8 2.3-5 5-5.6"/></svg></div>
+      <div class="af rv">
+        <div class="af-ico"><svg class="ico" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.2"/><path d="M2 20c0-3.5 2.7-6.2 6-6.2s6 2.7 6 6.2"/><circle cx="17.5" cy="9" r="2.6"/><path d="M14.6 20c.3-2.8 2.3-5 5-5.6"/></svg></div>
+        <div class="af-n">03</div>
         <h3>Map the handoff</h3>
         <p>Traced the full path from lead to intake to case, online team to offline team.</p>
       </div>
-      <div class="ap rv">
-        <span class="num">04</span>
-        <div class="icobox"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6Z"/></svg></div>
+      <div class="af rv">
+        <div class="af-ico"><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6Z"/></svg></div>
+        <div class="af-n">04</div>
         <h3>Design the connection</h3>
         <p>Planned how Zapier and Make would keep both systems in sync going forward.</p>
       </div>
@@ -389,20 +396,23 @@
     <div class="rule rv"></div>
     <h2 class="rv">Audit Findings</h2>
     <p class="h2sub rv">Underneath it, <em>3 operational gaps.</em></p>
-    <ul class="gaps">
-      <li class="rv">
-        <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
-        <span><b>Automations that misfired.</b> Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</span>
-      </li>
-      <li class="rv">
-        <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
-        <span><b>No shared view.</b> Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</span>
-      </li>
-      <li class="rv">
-        <svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg>
-        <span><b>Two systems, one business.</b> Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</span>
-      </li>
-    </ul>
+    <div class="findings-grid">
+      <div class="find rv">
+        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg></div>
+        <h3>Automations that misfired</h3>
+        <p>Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</p>
+      </div>
+      <div class="find rv">
+        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg></div>
+        <h3>No shared view</h3>
+        <p>Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</p>
+      </div>
+      <div class="find rv">
+        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg></div>
+        <h3>Two systems, one business</h3>
+        <p>Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</p>
+      </div>
+    </div>
   </div>
 </section>
 
