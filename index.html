@@ -147,11 +147,12 @@
   .icobox.grn{background:var(--green-soft);border-color:rgba(95,208,138,.24)}
 
   /* ── audit findings ──────────────────────── */
-  .findings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:28px}
-  .find{background:var(--ink);padding:clamp(24px,2.8vw,32px);display:flex;flex-direction:column;gap:12px;transition:background .4s ease}
-  .find:hover{background:var(--ink-3)}
-  .find h3{font-size:clamp(17px,1.8vw,19px);font-weight:500;letter-spacing:-.01em;line-height:1.3;color:var(--paper)}
-  .find p{font-size:clamp(14px,1.5vw,16px);color:var(--paper-faint);line-height:1.58}
+  .findings{list-style:none;margin-top:28px}
+  .find{display:flex;gap:22px;align-items:flex-start;padding:26px 0;border-bottom:1px solid var(--line)}
+  .find:first-child{border-top:1px solid var(--line)}
+  .find .icobox{margin-bottom:0;flex-shrink:0}
+  .find h3{font-size:clamp(17px,1.8vw,19px);font-weight:500;letter-spacing:-.01em;margin-bottom:6px;line-height:1.3;color:var(--paper)}
+  .find p{font-size:clamp(15px,1.6vw,17px);color:var(--paper-faint);line-height:1.58;max-width:62ch}
 
   /* ── approach (connected flow) ──────────── */
   .approach-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.6vw,32px);margin-top:44px;position:relative}
@@ -255,7 +256,6 @@
   @media(max-width:1000px){
     .approach-flow{grid-template-columns:repeat(2,1fr);row-gap:36px}
     .approach-flow::before{display:none}
-    .findings-grid{grid-template-columns:1fr}
     .rgrid{grid-template-columns:1fr}
     .ggrid{grid-template-columns:1fr}
     .figure-grid{grid-template-columns:1fr}
@@ -396,23 +396,29 @@
     <div class="rule rv"></div>
     <h2 class="rv">Audit Findings</h2>
     <p class="h2sub rv">Underneath it, <em>3 operational gaps.</em></p>
-    <div class="findings-grid">
-      <div class="find rv">
-        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg></div>
-        <h3>Automations that misfired</h3>
-        <p>Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</p>
-      </div>
-      <div class="find rv">
-        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg></div>
-        <h3>No shared view</h3>
-        <p>Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</p>
-      </div>
-      <div class="find rv">
-        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M12 3 2 21h20Z"/><line x1="12" y1="9" x2="12" y2="15"/><circle cx="12" cy="18" r=".7" fill="currentColor"/></svg></div>
-        <h3>Two systems, one business</h3>
-        <p>Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</p>
-      </div>
-    </div>
+    <ul class="findings">
+      <li class="find rv">
+        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div>
+        <div>
+          <h3>Automations that misfired</h3>
+          <p>Lawmatics workflows were breaking silently, so the CRM data itself couldn't be trusted.</p>
+        </div>
+      </li>
+      <li class="find rv">
+        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><line x1="3" y1="21" x2="21" y2="3"/></svg></div>
+        <div>
+          <h3>No shared view</h3>
+          <p>Neither Monday.com nor Lawmatics had a dashboard, so status lived in people's heads instead of on a screen.</p>
+        </div>
+      </li>
+      <li class="find rv">
+        <div class="icobox red"><svg class="ico red" viewBox="0 0 24 24"><circle cx="7" cy="12" r="5"/><circle cx="17" cy="12" r="5"/></svg></div>
+        <div>
+          <h3>Two systems, one business</h3>
+          <p>Monday.com and Lawmatics never talked to each other, so online and offline teams worked from two different pictures of the same firm.</p>
+        </div>
+      </li>
+    </ul>
   </div>
 </section>
 
