@@ -340,8 +340,72 @@
     <p class="h2sub rv">Stuck between <em>two systems.</em></p>
     <p class="lede rv">The firm was running Monday.com and Lawmatics side by side, but neither told the same story. The online team worked one system, the offline team worked the other, and status lived wherever someone last updated it by hand.</p>
 
-    <div class="figure" style="margin-top:26px">
-      <img src="img-01-before-state.png" alt="The before state: Monday.com's Case Tracker board, Lawmatics' matter activity feed, and Gmail all showing the same client with no shared view between them" style="display:block;width:100%;height:auto;border-radius:4px">
+    <div class="figure rv" style="margin-top:26px;max-width:780px">
+      <svg class="ill" viewBox="0 0 720 240" fill="none" aria-label="Monday.com, Lawmatics, and Gmail side by side with no connection between them">
+        <g class="fadein" stroke="rgba(196,100,60,.55)" stroke-width="1.4" stroke-dasharray="3 6" stroke-linecap="round">
+          <path d="M224 105H266"/><path d="M454 105H496"/>
+        </g>
+        <g class="fadein" style="transition-delay:.1s">
+          <circle cx="245" cy="105" r="9" fill="#141418" stroke="rgba(196,100,60,.7)" stroke-width="1.4"/>
+          <path d="M241 101l8 8M249 101l-8 8" stroke="#C4643C" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="475" cy="105" r="9" fill="#141418" stroke="rgba(196,100,60,.7)" stroke-width="1.4"/>
+          <path d="M471 101l8 8M479 101l-8 8" stroke="#C4643C" stroke-width="1.4" stroke-linecap="round"/>
+        </g>
+
+        <g class="fadein" style="transition-delay:.2s">
+          <g transform="rotate(-2 130 105)">
+            <rect x="40" y="30" width="180" height="150" rx="8" fill="#141418" stroke="rgba(217,169,76,.5)" stroke-width="1.4"/>
+            <rect x="40" y="30" width="180" height="22" rx="8" fill="rgba(217,169,76,.14)"/>
+            <rect x="52" y="37" width="8" height="8" rx="2" fill="#D9A94C"/>
+            <rect x="66" y="39" width="52" height="4" rx="2" fill="rgba(242,238,230,.45)"/>
+            <g stroke="rgba(255,255,255,.08)"><path d="M40 82h180"/><path d="M40 106h180"/><path d="M40 130h180"/><path d="M40 154h180"/></g>
+            <g fill="rgba(242,238,230,.3)"><rect x="54" y="64" width="78" height="5" rx="2"/><rect x="54" y="88" width="64" height="5" rx="2"/><rect x="54" y="112" width="84" height="5" rx="2"/><rect x="54" y="136" width="70" height="5" rx="2"/></g>
+            <rect x="162" y="60" width="44" height="12" rx="6" fill="rgba(95,208,138,.35)"/>
+            <rect x="162" y="84" width="44" height="12" rx="6" fill="rgba(217,169,76,.35)"/>
+            <rect x="162" y="108" width="44" height="12" rx="6" fill="rgba(196,100,60,.4)"/>
+            <rect x="162" y="132" width="44" height="12" rx="6" fill="rgba(95,208,138,.35)"/>
+          </g>
+          <text x="130" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.8" fill="rgba(242,238,230,.75)">MONDAY.COM</text>
+        </g>
+
+        <g class="fadein" style="transition-delay:.4s">
+          <rect x="270" y="30" width="180" height="150" rx="8" fill="#141418" stroke="rgba(217,169,76,.5)" stroke-width="1.4"/>
+          <rect x="270" y="30" width="180" height="22" rx="8" fill="rgba(217,169,76,.14)"/>
+          <rect x="282" y="37" width="8" height="8" rx="2" fill="#D9A94C"/>
+          <rect x="296" y="39" width="52" height="4" rx="2" fill="rgba(242,238,230,.45)"/>
+          <path d="M292 66V160" stroke="rgba(255,255,255,.14)"/>
+          <circle cx="292" cy="74" r="5" fill="#D9A94C"/>
+          <circle cx="292" cy="112" r="5" fill="#C4643C"/>
+          <circle cx="292" cy="150" r="5" fill="#5FD08A"/>
+          <g stroke="rgba(255,255,255,.14)">
+            <rect x="308" y="62" width="128" height="26" rx="4"/>
+            <rect x="308" y="100" width="128" height="26" rx="4"/>
+            <rect x="308" y="138" width="128" height="26" rx="4"/>
+          </g>
+          <g fill="rgba(242,238,230,.35)">
+            <rect x="316" y="69" width="70" height="4" rx="2"/><rect x="316" y="78" width="48" height="4" rx="2" fill="rgba(242,238,230,.2)"/>
+            <rect x="316" y="107" width="82" height="4" rx="2"/><rect x="316" y="116" width="56" height="4" rx="2" fill="rgba(242,238,230,.2)"/>
+            <rect x="316" y="145" width="62" height="4" rx="2"/><rect x="316" y="154" width="44" height="4" rx="2" fill="rgba(242,238,230,.2)"/>
+          </g>
+          <text x="360" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.8" fill="rgba(242,238,230,.75)">LAWMATICS</text>
+        </g>
+
+        <g class="fadein" style="transition-delay:.6s">
+          <g transform="rotate(2 590 105)">
+            <rect x="500" y="30" width="180" height="150" rx="8" fill="#141418" stroke="rgba(217,169,76,.5)" stroke-width="1.4"/>
+            <rect x="500" y="30" width="180" height="22" rx="8" fill="rgba(217,169,76,.14)"/>
+            <rect x="512" y="37" width="12" height="9" rx="2" stroke="#D9A94C" stroke-width="1.2"/>
+            <path d="M512.5 38 518 42.5 523.5 38" stroke="#D9A94C" stroke-width="1.2" stroke-linejoin="round"/>
+            <rect x="530" y="39" width="52" height="4" rx="2" fill="rgba(242,238,230,.45)"/>
+            <rect x="500" y="80" width="180" height="24" fill="rgba(217,169,76,.07)"/>
+            <g stroke="rgba(255,255,255,.08)"><path d="M500 80h180"/><path d="M500 104h180"/><path d="M500 128h180"/><path d="M500 152h180"/></g>
+            <g stroke="rgba(242,238,230,.3)" stroke-width="1.2"><rect x="512" y="64" width="8" height="8" rx="1.5"/><rect x="512" y="88" width="8" height="8" rx="1.5"/><rect x="512" y="112" width="8" height="8" rx="1.5"/><rect x="512" y="136" width="8" height="8" rx="1.5"/></g>
+            <g fill="rgba(242,238,230,.5)"><rect x="530" y="66" width="44" height="4" rx="2"/><rect x="530" y="90" width="52" height="4" rx="2"/><rect x="530" y="114" width="40" height="4" rx="2"/><rect x="530" y="138" width="48" height="4" rx="2"/></g>
+            <g fill="rgba(242,238,230,.22)"><rect x="590" y="66" width="76" height="4" rx="2"/><rect x="590" y="90" width="64" height="4" rx="2"/><rect x="590" y="114" width="80" height="4" rx="2"/><rect x="590" y="138" width="58" height="4" rx="2"/></g>
+          </g>
+          <text x="590" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="1.8" fill="rgba(242,238,230,.75)">GMAIL</text>
+        </g>
+      </svg>
       <div class="cap">The before state: two trackers, no shared view</div>
     </div>
   </div>
