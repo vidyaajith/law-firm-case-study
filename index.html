@@ -154,6 +154,9 @@
   .find h3{font-size:clamp(17px,1.8vw,19px);font-weight:500;letter-spacing:-.01em;margin-bottom:6px;line-height:1.3;color:var(--paper)}
   .find p{font-size:clamp(15px,1.6vw,17px);color:var(--paper-faint);line-height:1.58;max-width:62ch}
 
+  .csplit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,72px);align-items:center}
+  .csplit .lede{max-width:46ch}
+
   /* ── approach (connected flow) ──────────── */
   .approach-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.6vw,32px);margin-top:44px;position:relative}
   .approach-flow::before{content:'';position:absolute;top:23px;left:22px;right:22px;height:1px;background:var(--line-2)}
@@ -254,6 +257,7 @@
   .rv.in{opacity:1;transform:none}
 
   @media(max-width:1000px){
+    .csplit{grid-template-columns:1fr}
     .approach-flow{grid-template-columns:repeat(2,1fr);row-gap:36px}
     .approach-flow::before{display:none}
     .rgrid{grid-template-columns:1fr}
@@ -334,13 +338,15 @@
 
 <!-- ═══ 2. THE CHALLENGE ═══════════════════════ -->
 <section id="challenge">
-  <div class="wrap">
+  <div class="wrap csplit">
+    <div>
     <div class="rule rv"></div>
     <h2 class="rv">The Challenge</h2>
     <p class="h2sub rv">Stuck between <em>two systems.</em></p>
     <p class="lede rv">The firm was running Monday.com and Lawmatics side by side, but neither told the same story. The online team worked one system, the offline team worked the other, and status lived wherever someone last updated it by hand.</p>
+    </div>
 
-    <div class="figure rv" style="margin-top:26px;max-width:780px">
+    <div class="figure rv">
       <svg class="ill" viewBox="0 0 720 240" fill="none" aria-label="Monday.com, Lawmatics, and Gmail side by side with no connection between them">
         <g class="fadein" stroke="rgba(196,100,60,.55)" stroke-width="1.4" stroke-dasharray="3 6" stroke-linecap="round">
           <path d="M224 105H266"/><path d="M454 105H496"/>
